@@ -1,0 +1,68 @@
+function myFunction() { 
+  var sheet = SpreadsheetApp.getActiveSpreadsheet();
+  var sheetname1 = sheet.getSheetByName('01');
+  var sheetname2 = sheet.getSheetByName('02');
+  var pos_1 = "A";
+  var pos_2 = "1";
+  var chi = "1";
+  var b = ["A","B","C","D","E","F"];
+  var ssl = ""; //ссылка на источник данных
+ 
+  var array1 = [{}]; 
+  for (pos_2 = 1;pos_2 <120 ;pos_2++)
+  {  
+    var out = sheetname1.getRange(pos_1+pos_2).getValue();
+    
+    
+    array1 = out.replace(/<b>/g," ");
+    array1 = array1.replace(/<strong>/g," ");
+    array1 = array1.replace(/<br>/g," ");
+    array1 = array1.replace(/&quot/g," ");
+    array1 = array1.replace(/&raquo/g," ");
+    array1 = array1.replace(/; &ndash; &laquo;/g," "); 
+    array1 = array1.replace(/&laquo/g," ");
+    array1 = array1.replace(/&ndash/g," ");
+    var i = 0;
+    do
+    {
+      array1 = array1.replace("<br/>"," "); 
+      array1 = array1.replace("</b>"," ");
+      array1 = array1.replace("</strong>"," ");
+      i++;
+    } while(i!=25);
+    
+    
+        array1 = array1.split("--"); //ключевое слово для разделения массива
+    sheetname2.getRange(b[0]+chi).setValue(array1[0]);
+    array1 = array1[1];
+    
+    array1 = array1.split("");
+    sheetname2.getRange(b[1]+chi).setValue(array1[0]); 
+    array1 = array1[1];
+    
+     var index = array1.lastIndexOf("");
+    array1 = array1.substring(index+31);
+     array1 = array1.split("Начальная цена контракта: ");   
+    sheetname2.getRange(b[2]+chi).setValue(array1[0]); 
+    array1 = array1[1];
+    
+    array1 = array1.split("");
+   
+    { sheetname2.getRange(b[3]+chi).setValue(array1[0]); 
+     array1 = array1[1];  }
+   
+    array1 = array1.split("");   
+    array1 = array1[1];  
+    array1 = array1.split("");
+    sheetname2.getRange(b[4]+chi).setValue(array1[0]); 
+    array1 = array1[1];   
+    
+    
+    var out = sheetname2.getRange(pos_1+pos_2).getValue();
+    
+    array1 = out.split("№");
+    sheetname2.getRange(b[5]+chi).setValue(ssl+array1[1]); 
+    
+    chi++;
+  }
+}
